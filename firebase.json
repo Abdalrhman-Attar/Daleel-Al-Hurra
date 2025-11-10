@@ -1,0 +1,22 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "daleel-al-hurra",
+                    "appId": "1:124042892106:android:0096be1d3d6d84507167b3",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "daleel-al-hurra",
+                    "configurations": {
+                        "android": "1:124042892106:android:0096be1d3d6d84507167b3",
+                        "ios": "1:124042892106:ios:9d0470d53f75eb0f7167b3"
+                    }
+                }
+            }
+        }
+    }
+}

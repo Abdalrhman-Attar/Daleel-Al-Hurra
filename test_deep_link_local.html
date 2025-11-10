@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Deep Links - Daleel Al Hurra</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-link {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .test-link:hover {
+            background: #0056b3;
+        }
+        .custom-scheme {
+            background: #28a745;
+        }
+        .custom-scheme:hover {
+            background: #1e7e34;
+        }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Daleel Al Hurra Deep Link Tester</h1>
+        
+        <div class="note">
+            <strong>📝 Instructions:</strong>
+            <ul>
+                <li>Test these links on your mobile device</li>
+                <li>Custom scheme links should open the app directly</li>
+                <li>HTTPS links will redirect to Play Store for now</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🚗 Car Deep Links</h3>
+            <p>Test car ID: 149</p>
+            
+            <a href="daleelalhurra://car/149" class="test-link custom-scheme">
+                🔗 Custom Scheme: daleelalhurra://car/149
+            </a>
+            
+            <p><strong>Expected behavior:</strong> Should open the app and navigate to car details page for car ID 149</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🏪 Dealer Deep Links</h3>
+            <p>Test dealer ID: 456</p>
+            
+            <a href="daleelalhurra://dealer/456" class="test-link custom-scheme">
+                🔗 Custom Scheme: daleelalhurra://dealer/456
+            </a>
+            
+            <p><strong>Expected behavior:</strong> Should open the app and navigate to dealer details page for dealer ID 456</p>
+        </div>
+
+        <div class="test-section">
+            <h3>🧪 Debug Information</h3>
+            <p>If the links don't work, check:</p>
+            <ul>
+                <li>App is installed and up to date</li>
+                <li>Custom scheme is registered properly</li>
+                <li>Check device logs for deep link events</li>
+            </ul>
+            
+            <div style="margin-top: 20px;">
+                <strong>Current URL Scheme:</strong> <code>daleelalhurra://</code><br>
+                <strong>Car Pattern:</strong> <code>daleelalhurra://car/{id}</code><br>
+                <strong>Dealer Pattern:</strong> <code>daleelalhurra://dealer/{id}</code>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>📱 Share Test</h3>
+            <p>Copy and paste these links in WhatsApp or other messaging apps:</p>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <strong>Car Share Text:</strong><br>
+                🚗 Check out this amazing car!<br><br>
+                📋 Name: Test Car<br>
+                💰 Price: 25000 JD<br>
+                🏪 Dealer: Test Dealer<br><br>
+                🔗 Open in Daleel Al Hurra app: daleelalhurra://car/149<br><br>
+                📱 If app is not installed, get it here: https://play.google.com/store/apps/details?id=com.daleelalhurra.frontend<br><br>
+                #DaleelAlHurra #Cars #Jordan
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add click tracking for debugging
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('test-link')) {
+                console.log('Clicked link:', e.target.href);
+                
+                // For custom scheme links, add a fallback
+                if (e.target.href.startsWith('daleelalhurra://')) {
+                    setTimeout(() => {
+                        alert('If the app didn\'t open, it might not be installed or the scheme isn\'t registered properly.');
+                    }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

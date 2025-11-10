@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "124042892106",
+    "project_id": "daleel-al-hurra",
+    "storage_bucket": "daleel-al-hurra.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124042892106:android:0096be1d3d6d84507167b3",
+        "android_client_info": {
+          "package_name": "com.daleelalhurra.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM8wErkBLq05xHhMOPiSAbQvbGpkkc_ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124042892106:android:16163227cf1cb0817167b3",
+        "android_client_info": {
+          "package_name": "com.dottech.daleelalhurra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM8wErkBLq05xHhMOPiSAbQvbGpkkc_ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

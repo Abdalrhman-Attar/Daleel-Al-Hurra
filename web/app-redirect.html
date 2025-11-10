@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daleel Al Hurra - App Redirect</title>
+    <meta name="description" content="Download Daleel Al Hurra app for the best car shopping experience">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Daleel Al Hurra - Car Shopping Made Easy">
+    <meta property="og:description" content="Discover amazing cars and trusted dealers in Jordan">
+    <meta property="og:image" content="https://daleelalhurra.com/assets/logos/app_logo.png">
+    <meta property="og:url" content="https://daleelalhurra.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Daleel Al Hurra - Car Shopping Made Easy">
+    <meta name="twitter:description" content="Discover amazing cars and trusted dealers in Jordan">
+    <meta name="twitter:image" content="https://daleelalhurra.com/assets/logos/app_logo.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        p {
+            font-size: 16px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .download-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            gap: 10px;
+        }
+        
+        .download-btn:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .status {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (min-width: 768px) {
+            .download-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🚗</div>
+        <h1>Daleel Al Hurra</h1>
+        <p>Your ultimate guide to cars and dealers in Jordan. Download the app for the best experience!</p>
+        
+        <div class="download-buttons">
+            <a href="https://apps.apple.com/us/app/%D8%AF%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%B1%D8%A9/id6670617809" 
+               class="download-btn" id="ios-btn" style="display: none;">
+                📱 Download for iPhone
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.daleelalhurra.frontend" 
+               class="download-btn" id="android-btn" style="display: none;">
+                🤖 Download for Android
+            </a>
+        </div>
+        
+        <div class="status" id="status">
+            <span class="spinner"></span>
+            Attempting to open the app...
+        </div>
+    </div>
+
+    <script>
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const path = urlParams.get('path') || '';
+        
+        // Handle both old format (car=123, dealer=456) and new format (type=car&id=123)
+        let carId = urlParams.get('car');
+        let dealerId = urlParams.get('dealer');
+        
+        const type = urlParams.get('type');
+        const id = urlParams.get('id');
+        
+        if (type && id) {
+            if (type === 'car') {
+                carId = id;
+            } else if (type === 'dealer') {
+                dealerId = id;
+            }
+        }
+        
+        // Debug logging
+        console.log('URL Parameters:', {
+            type: type,
+            id: id,
+            carId: carId,
+            dealerId: dealerId,
+            path: path,
+            fullURL: window.location.href
+        });
+        
+        // Construct deep link URL
+        let deepLink = 'daleelalhurra://';
+        if (carId) {
+            deepLink += `car/${carId}`;
+            console.log('Generated car deep link:', deepLink);
+        } else if (dealerId) {
+            deepLink += `dealer/${dealerId}`;
+            console.log('Generated dealer deep link:', deepLink);
+        } else if (path) {
+            deepLink += path;
+            console.log('Generated path deep link:', deepLink);
+        } else {
+            console.log('No specific content, using base deep link:', deepLink);
+        }
+        
+        // Detect platform
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+        const isMobile = isIOS || isAndroid;
+        
+        // Show appropriate download button
+        if (isIOS) {
+            document.getElementById('ios-btn').style.display = 'inline-flex';
+        } else if (isAndroid) {
+            document.getElementById('android-btn').style.display = 'inline-flex';
+        } else {
+            // Desktop - show both
+            document.getElementById('ios-btn').style.display = 'inline-flex';
+            document.getElementById('android-btn').style.display = 'inline-flex';
+        }
+        
+        // Attempt to open the app
+        function attemptAppOpen() {
+            if (isMobile) {
+                // Try to open the app
+                window.location.href = deepLink;
+                
+                // Set a timeout to show download buttons if app doesn't open
+                setTimeout(() => {
+                    document.getElementById('status').innerHTML = 
+                        "App not installed? Download it below:";
+                }, 2000);
+            } else {
+                // Desktop - show download options immediately
+                document.getElementById('status').innerHTML = 
+                    "Get the mobile app for the best experience:";
+            }
+        }
+        
+        // Start the redirect process
+        attemptAppOpen();
+        
+        // Handle visibility change (when user returns from app store)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                // User returned to the page, try opening app again
+                setTimeout(attemptAppOpen, 500);
+            }
+        });
+    </script>
+</body>
+</html>

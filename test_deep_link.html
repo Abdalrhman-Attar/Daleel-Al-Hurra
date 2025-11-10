@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Deep Links</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .link-container { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .link { color: #0066cc; text-decoration: none; font-weight: bold; }
+        .link:hover { text-decoration: underline; }
+        .description { color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔗 Test Deep Links for Daleel Al Hurra</h1>
+    <p>Use these links to test the deep linking functionality:</p>
+
+    <div class="link-container">
+        <h3>Test Car Deep Link</h3>
+        <a href="daleelalhurra://car/123" class="link">daleelalhurra://car/123</a>
+        <div class="description">This should open the app and show car details for car ID 123</div>
+    </div>
+
+    <div class="link-container">
+        <h3>Test Dealer Deep Link</h3>
+        <a href="daleelalhurra://dealer/456" class="link">daleelalhurra://dealer/456</a>
+        <div class="description">This should open the app and show dealer details for dealer ID 456</div>
+    </div>
+
+    <div class="link-container">
+        <h3>Test HTTPS Fallback (if app not installed)</h3>
+        <a href="https://daleelalhurra.com/car/123" class="link">https://daleelalhurra.com/car/123</a>
+        <div class="description">This should open in browser if app is not installed</div>
+    </div>
+
+    <h2>📱 Testing Instructions:</h2>
+    <ol>
+        <li>Make sure the app is installed on your device</li>
+        <li>Click on the custom scheme links (daleelalhurra://...)</li>
+        <li>The app should open and show a dialog confirming the deep link worked</li>
+        <li>Check the app logs for debug messages starting with 🔗, 🚗, or 🏪</li>
+    </ol>
+
+    <h2>🐛 Troubleshooting:</h2>
+    <ul>
+        <li>If links open in browser instead of app, the app may not be properly installed or registered</li>
+        <li>Try uninstalling and reinstalling the app after the changes</li>
+        <li>Make sure you're testing on a physical device, not just emulator</li>
+        <li>Check AndroidManifest.xml and iOS Info.plist configurations</li>
+    </ul>
+</body>
+</html>

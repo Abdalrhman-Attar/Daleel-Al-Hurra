@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Daleel Al Hurra</string>
+
+    <!-- Location permission usage descriptions -->
+    <string name="location_permission_title">Location Access</string>
+    <string name="fine_location_permission_description">Daleel Al Hurra uses precise location to show nearby car dealers, calculate accurate distances, and provide turn-by-turn directions via Google Maps integration.</string>
+    <string name="coarse_location_permission_description">Daleel Al Hurra uses approximate location to find car dealers in your general area and provide location-based car deal recommendations.</string>
+    <string name="background_location_permission_description">Daleel Al Hurra uses background location to send you real-time notifications about nearby car deals and dealer promotions when you\'re on the move.</string>
+
+    <!-- Google Maps usage description -->
+    <string name="google_maps_usage_description">Google Maps is integrated into Daleel Al Hurra to provide interactive maps, directions to car dealers, and location-based search functionality to help you find the best car deals in your area.</string>
+</resources>

@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.daleelalhurra.frontend",
+            "sha256_cert_fingerprints": [
+                "83:1b:7e:07:e5:1b:a7:4e:aa:f5:1b:86:f7:f5:d7:b3:ce:78:7e:d1:b1:34:c8:39:5b:d8:85:61:95:2a:ef:c8"
+            ]
+        }
+    }
+]

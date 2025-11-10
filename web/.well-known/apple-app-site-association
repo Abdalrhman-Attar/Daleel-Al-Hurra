@@ -1,0 +1,26 @@
+{
+    "applinks": {
+        "details": [
+            {
+                "appIDs": [
+                    "BR2JG6GJD6.com.daleelalhurra.frontend"
+                ],
+                "components": [
+                    {
+                        "/": "/car/*",
+                        "comment": "Car details deep links"
+                    },
+                    {
+                        "/": "/dealer/*",
+                        "comment": "Dealer details deep links"
+                    }
+                ]
+            }
+        ]
+    },
+    "webcredentials": {
+        "apps": [
+            "BR2JG6GJD6.com.daleelalhurra.frontend"
+        ]
+    }
+}

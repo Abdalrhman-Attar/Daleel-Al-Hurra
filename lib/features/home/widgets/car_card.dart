@@ -25,6 +25,7 @@ class CarCard extends StatefulWidget {
 
   final Car car;
   final bool isMyCars;
+
   @override
   State<CarCard> createState() => _CarCardState();
 }
@@ -122,7 +123,10 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
     var randomInterval = 7000 + _random.nextInt(15000);
 
     _timer = Timer(Duration(milliseconds: randomInterval), () {
-      if (mounted && car.images != null && car.images!.isNotEmpty && !_isTransitioning) {
+      if (mounted &&
+          car.images != null &&
+          car.images!.isNotEmpty &&
+          !_isTransitioning) {
         _transitionToNextImage();
       }
     });
@@ -291,7 +295,8 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CarDetailsPage(car: car, isMyCar: widget.isMyCars),
+                builder: (context) =>
+                    CarDetailsPage(car: car, isMyCar: widget.isMyCars),
               ),
             );
           },
@@ -307,53 +312,21 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                     // Car image with fade transition
                     Positioned.fill(
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
                         child: Stack(
                           children: [
                             // Main image
-                            AnimatedBuilder(
-                              animation: _fadeAnimation,
-                              builder: (context, child) {
-                                return Opacity(
-                                  opacity: _fadeAnimation.value,
-                                  child: CachedNetworkImage(
-                                    imageUrl: _currentImageUrl,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    errorWidget: (context, url, error) => Container(
-                                      color: Colors.grey[200],
-                                      child: const Icon(Icons.car_rental, size: 40),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            // Shimmer overlay during transition
-                            if (_isTransitioning)
-                              AnimatedBuilder(
-                                animation: _shimmerAnimation,
-                                builder: (context, child) {
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        stops: [
-                                          (_shimmerAnimation.value - 0.4).clamp(0.0, 1.0),
-                                          _shimmerAnimation.value.clamp(0.0, 1.0),
-                                          (_shimmerAnimation.value + 0.4).clamp(0.0, 1.0),
-                                        ],
-                                        colors: [
-                                          Colors.transparent,
-                                          Colors.white.withValues(alpha: 0.2),
-                                          Colors.transparent,
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
+                            CachedNetworkImage(
+                              imageUrl: car.coverImage ?? '',
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: double.infinity,
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.car_rental, size: 40),
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -362,7 +335,8 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                     Positioned.fill(
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(16)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -386,44 +360,6 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    // Image indicator dots (if multiple images)
-                    if (car.images != null && car.images!.length > 1)
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 8, bottom: 8),
-                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(
-                              min(car.images!.length, 5),
-                              (index) => AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                margin: const EdgeInsets.symmetric(horizontal: 4),
-                                width: 8,
-                                height: 8,
-                                decoration: BoxDecoration(
-                                  color: index == _currentImageIndex ? MyColors.primary : Colors.white.withValues(alpha: 0.5),
-                                  borderRadius: BorderRadius.circular(4),
-                                  boxShadow: [
-                                    if (index == _currentImageIndex)
-                                      BoxShadow(
-                                        color: MyColors.primary.withValues(alpha: 0.3),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    // Brand logo
                     Positioned(
                       top: 12,
                       left: 12,
@@ -464,10 +400,14 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                             onToggle: () {
                               GlobalDialog.show(
                                 context: context,
-                                title: tr('are you sure you want to toggle the status of this car?'),
-                                message: '${tr('this action will change the status of the car to')} ${tr(car.isActive ?? false ? 'active' : 'inactive')}',
-                                onConfirm: () => Get.find<MyCarsController>().toggleCarStatus(car),
-                                onCancel: () => Get.find<MyCarsController>().isLoading = false,
+                                title: tr(
+                                    'are you sure you want to toggle the status of this car?'),
+                                message:
+                                    '${tr('this action will change the status of the car to')} ${tr(car.isActive ?? false ? 'active' : 'inactive')}',
+                                onConfirm: () => Get.find<MyCarsController>()
+                                    .toggleCarStatus(car),
+                                onCancel: () => Get.find<MyCarsController>()
+                                    .isLoading = false,
                                 confirmText: tr('yes'),
                                 cancelText: tr('no'),
                               );
@@ -483,17 +423,22 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                           () => GlobalIconButton(
                             iconData: Icons.delete,
                             iconColor: MyColors.error,
-                            backgroundColor: MyColors.error.withValues(alpha: 0.4),
+                            backgroundColor:
+                                MyColors.error.withValues(alpha: 0.4),
                             borderRadius: BorderRadius.circular(100),
                             iconSize: 20,
                             buttonSize: 36,
                             onPressed: () {
                               GlobalDialog.show(
                                 context: context,
-                                title: tr('are you sure you want to delete this car?'),
-                                message: tr('this action will delete the car from the database'),
-                                onConfirm: () => Get.find<MyCarsController>().deleteCar(car),
-                                onCancel: () => Get.find<MyCarsController>().isLoading = false,
+                                title: tr(
+                                    'are you sure you want to delete this car?'),
+                                message: tr(
+                                    'this action will delete the car from the database'),
+                                onConfirm: () =>
+                                    Get.find<MyCarsController>().deleteCar(car),
+                                onCancel: () => Get.find<MyCarsController>()
+                                    .isLoading = false,
                                 confirmText: tr('yes'),
                                 cancelText: tr('no'),
                               );
@@ -523,14 +468,22 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                           child: Obx(
                             () => IconButton(
                               onPressed: () {
-                                if (Get.find<UserDataStore>().favoriteCars.contains(car.id)) {
-                                  Get.find<UserDataStore>().favoriteCars.remove(car.id);
+                                if (Get.find<UserDataStore>()
+                                    .favoriteCars
+                                    .contains(car.id)) {
+                                  Get.find<UserDataStore>()
+                                      .favoriteCars
+                                      .remove(car.id);
                                 } else {
-                                  Get.find<UserDataStore>().favoriteCars.add(car.id ?? 0);
+                                  Get.find<UserDataStore>()
+                                      .favoriteCars
+                                      .add(car.id ?? 0);
                                 }
                                 Get.find<FavoritesCarsController>().fetchCars();
                               },
-                              icon: Get.find<UserDataStore>().favoriteCars.contains(car.id)
+                              icon: Get.find<UserDataStore>()
+                                      .favoriteCars
+                                      .contains(car.id)
                                   ? Icon(
                                       Icons.favorite,
                                       size: 18,
@@ -573,7 +526,8 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                       Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
                             decoration: BoxDecoration(
                               color: MyColors.secondary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
@@ -618,7 +572,9 @@ class _CarCardState extends State<CarCard> with TickerProviderStateMixin {
                             label: tr('doors'),
                           ),
                           _buildSpecItem(
-                            icon: car.fuelType == 'Electric' ? Icons.electric_bolt : Icons.local_gas_station_outlined,
+                            icon: car.fuelType == 'Electric'
+                                ? Icons.electric_bolt
+                                : Icons.local_gas_station_outlined,
                             value: _getFuelTypeShort(car.fuelType ?? ''),
                             label: tr('fuel'),
                           ),

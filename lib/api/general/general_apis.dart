@@ -1,6 +1,8 @@
+import '../../features/home/widgets/Slider_banner.dart';
 import '../../model/api/api_response.dart';
 import '../../model/general/language/language.dart';
 import '../../model/general/page_model/page_model.dart';
+import '../../model/general/page_model/slider_model.dart';
 import '../../utils/constants/api_constants.dart';
 import '../api_wrapper.dart';
 
@@ -42,6 +44,19 @@ class GeneralApis extends ApiWrapper {
       logger.e('Failed to get pages: $e');
       return ApiResponse<List<PageModel>>.error(
           statusCode: 500, message: 'Failed to get pages: ${e.toString()}');
+    }
+  }
+  Future<ApiResponse<List<SliderModel>>> getSliderApps() async {
+    try {
+      final response = await apiService.getPaginatedList<SliderModel>(
+        ApiConstants.sliderItems,
+        fromJson: SliderModel.fromJson,
+      );
+      return response;
+    } catch (e) {
+      logger.e('Failed to get slider: $e');
+      return ApiResponse<List<SliderModel>>.error(
+          statusCode: 500, message: 'Failed to get slider: ${e.toString()}');
     }
   }
 

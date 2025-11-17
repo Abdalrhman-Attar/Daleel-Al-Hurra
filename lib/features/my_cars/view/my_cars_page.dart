@@ -36,7 +36,7 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabChange);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-     await  searchController.fetchCars();
+      await searchController.fetchCars();
       await _checkAccountStatus();
     });
   }
@@ -131,10 +131,21 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                 // Car Category
                 GlobalMultiSelectChip(
                   label: tr('car categories'),
-                  items: searchController.allCarCategories.map((e) => ChipData(label: e.name ?? '', value: e.id.toString(), isSelected: false, image: '')).toList(),
-                  selectedItems: searchController.selectedCategories.map((e) => e.id.toString()).toList(),
+                  items: searchController.allCarCategories
+                      .map((e) => ChipData(
+                          label: e.name ?? '',
+                          value: e.id.toString(),
+                          isSelected: false,
+                          image: ''))
+                      .toList(),
+                  selectedItems: searchController.selectedCategories
+                      .map((e) => e.id.toString())
+                      .toList(),
                   onSelectionChanged: (value) async {
-                    searchController.selectedCategories = searchController.allCarCategories.where((e) => value.contains(e.id.toString())).toList();
+                    searchController.selectedCategories = searchController
+                        .allCarCategories
+                        .where((e) => value.contains(e.id.toString()))
+                        .toList();
                     await searchController.fetchCars();
                   },
                 ),
@@ -143,12 +154,23 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                 // Brands
                 GlobalMultiSelectChip(
                   label: tr('brands'),
-                  items: searchController.allBrands.map((e) => ChipData(label: e.name ?? '', value: e.id.toString(), isSelected: false, image: e.imageUrl ?? '')).toList(),
-                  selectedItems: searchController.selectedBrands.map((e) => e.id.toString()).toList(),
+                  items: searchController.allBrands
+                      .map((e) => ChipData(
+                          label: e.name ?? '',
+                          value: e.id.toString(),
+                          isSelected: false,
+                          image: e.imageUrl ?? ''))
+                      .toList(),
+                  selectedItems: searchController.selectedBrands
+                      .map((e) => e.id.toString())
+                      .toList(),
                   onSelectionChanged: (value) async {
                     searchController.selectedBrandModels.clear();
-                    searchController.selectedBrands = searchController.allBrands.where((e) => value.contains(e.id.toString())).toList();
-                    await searchController.fetchBrandModels(searchController.selectedBrands);
+                    searchController.selectedBrands = searchController.allBrands
+                        .where((e) => value.contains(e.id.toString()))
+                        .toList();
+                    await searchController
+                        .fetchBrandModels(searchController.selectedBrands);
                     await searchController.fetchCars();
                   },
                 ),
@@ -160,10 +182,23 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                       : searchController.selectedBrands.isNotEmpty
                           ? GlobalMultiSelectChip(
                               label: tr('brand models'),
-                              items: searchController.allBrandModels.map((e) => ChipData(label: e.name ?? '', value: e.id.toString(), isSelected: false, image: '')).toList(),
-                              selectedItems: searchController.selectedBrandModels.map((e) => e.id.toString()).toList(),
+                              items: searchController.allBrandModels
+                                  .map((e) => ChipData(
+                                      label: e.name ?? '',
+                                      value: e.id.toString(),
+                                      isSelected: false,
+                                      image: ''))
+                                  .toList(),
+                              selectedItems: searchController
+                                  .selectedBrandModels
+                                  .map((e) => e.id.toString())
+                                  .toList(),
                               onSelectionChanged: (value) async {
-                                searchController.selectedBrandModels = searchController.allBrandModels.where((e) => value.contains(e.id.toString())).toList();
+                                searchController.selectedBrandModels =
+                                    searchController.allBrandModels
+                                        .where((e) =>
+                                            value.contains(e.id.toString()))
+                                        .toList();
                                 await searchController.fetchCars();
                               },
                             )
@@ -176,7 +211,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                   label: tr('price'),
                   min: 0,
                   max: 1000000,
-                  values: RangeValues(searchController.priceMin.value ?? 0, searchController.priceMax.value ?? 1000000),
+                  values: RangeValues(searchController.priceMin.value ?? 0,
+                      searchController.priceMax.value ?? 1000000),
                   divisions: 1000000,
                   onChanged: (value) async {
                     searchController.priceMin.value = value.start;
@@ -192,8 +228,12 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                   min: 2010.toDouble(),
                   max: DateTime.now().year.toDouble(),
                   values: RangeValues(
-                    (searchController.yearFrom.value?.toDouble() ?? 2010.toDouble()).clamp(2010.toDouble(), DateTime.now().year.toDouble()),
-                    (searchController.yearTo.value?.toDouble() ?? DateTime.now().year.toDouble()).clamp(2010.toDouble(), DateTime.now().year.toDouble()),
+                    (searchController.yearFrom.value?.toDouble() ??
+                            2010.toDouble())
+                        .clamp(2010.toDouble(), DateTime.now().year.toDouble()),
+                    (searchController.yearTo.value?.toDouble() ??
+                            DateTime.now().year.toDouble())
+                        .clamp(2010.toDouble(), DateTime.now().year.toDouble()),
                   ),
                   divisions: DateTime.now().year.toInt() - 2010,
                   onChanged: (value) async {
@@ -222,7 +262,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                   },
                   height: 48,
                   borderRadius: BorderRadius.circular(8),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 ),
 
                 const SizedBox(height: 16),
@@ -233,16 +274,19 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                     decoration: BoxDecoration(
                       color: MyColors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: MyColors.grey.withValues(alpha: 0.1)),
+                      border: Border.all(
+                          color: MyColors.grey.withValues(alpha: 0.1)),
                     ),
                     child: Column(
                       children: [
                         // Header with expand/collapse button
                         InkWell(
                           onTap: () {
-                            searchController.isAdvancedFiltersExpanded = !searchController.isAdvancedFiltersExpanded;
+                            searchController.isAdvancedFiltersExpanded =
+                                !searchController.isAdvancedFiltersExpanded;
                           },
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(12)),
                           child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Row(
@@ -257,7 +301,9 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                                 Icon(
-                                  searchController.isAdvancedFiltersExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                  searchController.isAdvancedFiltersExpanded
+                                      ? Icons.keyboard_arrow_up
+                                      : Icons.keyboard_arrow_down,
                                   color: MyColors.primary,
                                   size: 24,
                                 ),
@@ -272,7 +318,9 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               border: Border(
-                                top: BorderSide(color: MyColors.grey.withValues(alpha: 0.1)),
+                                top: BorderSide(
+                                    color:
+                                        MyColors.grey.withValues(alpha: 0.1)),
                               ),
                             ),
                             child: Column(
@@ -280,10 +328,23 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 // Car Body Type
                                 GlobalMultiSelectChip(
                                   label: tr('car body types'),
-                                  items: searchController.allBodyTypes.map((e) => ChipData(label: e.name ?? '', value: e.id.toString(), isSelected: false, image: '')).toList(),
-                                  selectedItems: searchController.selectedBodyTypes.map((e) => e.id.toString()).toList(),
+                                  items: searchController.allBodyTypes
+                                      .map((e) => ChipData(
+                                          label: e.name ?? '',
+                                          value: e.id.toString(),
+                                          isSelected: false,
+                                          image: ''))
+                                      .toList(),
+                                  selectedItems: searchController
+                                      .selectedBodyTypes
+                                      .map((e) => e.id.toString())
+                                      .toList(),
                                   onSelectionChanged: (value) async {
-                                    searchController.selectedBodyTypes = searchController.allBodyTypes.where((e) => value.contains(e.id.toString())).toList();
+                                    searchController.selectedBodyTypes =
+                                        searchController.allBodyTypes
+                                            .where((e) =>
+                                                value.contains(e.id.toString()))
+                                            .toList();
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -292,7 +353,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 // Condition
                                 GlobalMultiSelectChip(
                                   label: tr('condition'),
-                                  items: conditions.map((e) => ChipData(label: tr(e), value: e, isSelected: false, image: '')).toList(),
+                                  items: conditions
+                                      .map((e) => ChipData(
+                                          label: tr(e),
+                                          value: e,
+                                          isSelected: false,
+                                          image: ''))
+                                      .toList(),
                                   selectedItems: searchController.condition,
                                   onSelectionChanged: (value) async {
                                     searchController.condition.assignAll(value);
@@ -304,10 +371,17 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 // Transmission
                                 GlobalMultiSelectChip(
                                   label: tr('transmission'),
-                                  items: transmissions.map((e) => ChipData(label: tr(e), value: e, isSelected: false, image: '')).toList(),
+                                  items: transmissions
+                                      .map((e) => ChipData(
+                                          label: tr(e),
+                                          value: e,
+                                          isSelected: false,
+                                          image: ''))
+                                      .toList(),
                                   selectedItems: searchController.transmission,
                                   onSelectionChanged: (value) async {
-                                    searchController.transmission.assignAll(value);
+                                    searchController.transmission
+                                        .assignAll(value);
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -316,7 +390,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 // Fuel Type
                                 GlobalMultiSelectChip(
                                   label: tr('fuel type'),
-                                  items: fuelTypes.map((e) => ChipData(label: tr(e), value: e, isSelected: false, image: '')).toList(),
+                                  items: fuelTypes
+                                      .map((e) => ChipData(
+                                          label: tr(e),
+                                          value: e,
+                                          isSelected: false,
+                                          image: ''))
+                                      .toList(),
                                   selectedItems: searchController.fuelType,
                                   onSelectionChanged: (value) async {
                                     searchController.fuelType.assignAll(value);
@@ -328,10 +408,17 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 // Drivetrain
                                 GlobalMultiSelectChip(
                                   label: tr('drivetrain'),
-                                  items: drivetrains.map((e) => ChipData(label: tr(e), value: e, isSelected: false, image: '')).toList(),
+                                  items: drivetrains
+                                      .map((e) => ChipData(
+                                          label: tr(e),
+                                          value: e,
+                                          isSelected: false,
+                                          image: ''))
+                                      .toList(),
                                   selectedItems: searchController.drivetrain,
                                   onSelectionChanged: (value) async {
-                                    searchController.drivetrain.assignAll(value);
+                                    searchController.drivetrain
+                                        .assignAll(value);
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -343,13 +430,21 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                   min: 0,
                                   max: 1000,
                                   values: RangeValues(
-                                    (searchController.horsepowerMin.value?.toDouble() ?? 0.toDouble()).clamp(0.toDouble(), 1000.toDouble()),
-                                    (searchController.horsepowerMax.value?.toDouble() ?? 1000).clamp(0, 1000),
+                                    (searchController.horsepowerMin.value
+                                                ?.toDouble() ??
+                                            0.toDouble())
+                                        .clamp(0.toDouble(), 1000.toDouble()),
+                                    (searchController.horsepowerMax.value
+                                                ?.toDouble() ??
+                                            1000)
+                                        .clamp(0, 1000),
                                   ),
                                   divisions: 1000,
                                   onChanged: (value) async {
-                                    searchController.horsepowerMin.value = value.start.toInt();
-                                    searchController.horsepowerMax.value = value.end.toInt();
+                                    searchController.horsepowerMin.value =
+                                        value.start.toInt();
+                                    searchController.horsepowerMax.value =
+                                        value.end.toInt();
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -360,10 +455,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                   label: tr('doors'),
                                   min: 1,
                                   max: 10,
-                                  value: searchController.doors.value?.toDouble() ?? 1,
+                                  value: searchController.doors.value
+                                          ?.toDouble() ??
+                                      1,
                                   divisions: 10,
                                   onChanged: (value) async {
-                                    searchController.doors.value = value.toInt();
+                                    searchController.doors.value =
+                                        value.toInt();
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -374,10 +472,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                   label: tr('seats'),
                                   min: 1,
                                   max: 10,
-                                  value: searchController.seats.value?.toDouble() ?? 1,
+                                  value: searchController.seats.value
+                                          ?.toDouble() ??
+                                      1,
                                   divisions: 10,
                                   onChanged: (value) async {
-                                    searchController.seats.value = value.toInt();
+                                    searchController.seats.value =
+                                        value.toInt();
                                     await searchController.fetchCars();
                                   },
                                 ),
@@ -430,7 +531,7 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                       centerTitle: true,
                       backgroundColor: MyColors.background,
                       elevation: 0,
-                      actions: isAccountActive
+                      actions: (_accountStatus ?? false)
                           ? [
                               IconButton(
                                 onPressed: () {
@@ -451,14 +552,17 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                           children: [
                             const SizedBox(height: 8),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
                               child: Obx(
                                 () => SearchField(
                                   onFilter: _showFilterBottomSheet,
                                   controller: searchController.query.value,
                                   hint: tr('search'),
-                                  onChange: () async => await searchController.fetchCars(),
-                                  onSearch: () async => await searchController.fetchCars(),
+                                  onChange: () async =>
+                                      await searchController.fetchCars(),
+                                  onSearch: () async =>
+                                      await searchController.fetchCars(),
                                 ),
                               ),
                             ),
@@ -470,8 +574,12 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                                 unselectedLabelColor: Colors.grey,
                                 indicatorColor: MyColors.primary,
                                 tabs: [
-                                  Tab(text: '${tr('active cars')} (${searchController.myActiveCarsCount})'),
-                                  Tab(text: '${tr('inactive cars')} (${searchController.myInactiveCarsCount})'),
+                                  Tab(
+                                      text:
+                                          '${tr('active cars')} (${searchController.myActiveCarsCount})'),
+                                  Tab(
+                                      text:
+                                          '${tr('inactive cars')} (${searchController.myInactiveCarsCount})'),
                                 ],
                               ),
                             ),
@@ -510,7 +618,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
             key: const ValueKey('cars_tab'),
             child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
-                if (scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 200) {
+                if (scrollInfo.metrics.pixels >=
+                    scrollInfo.metrics.maxScrollExtent - 200) {
                   searchController.loadMoreActiveCars();
                 }
                 return true;
@@ -532,7 +641,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
             key: const ValueKey('inactive_cars_tab'),
             child: NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollInfo) {
-                if (scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 200) {
+                if (scrollInfo.metrics.pixels >=
+                    scrollInfo.metrics.maxScrollExtent - 200) {
                   searchController.loadMoreInactiveCars();
                 }
                 return true;
@@ -560,11 +670,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       () {
         if (!mounted) return const SizedBox();
 
-        if (searchController.isLoading && searchController.myActiveCars.isEmpty) {
+        if (searchController.isLoading &&
+            searchController.myActiveCars.isEmpty) {
           return const CarGridShimmer();
         }
 
-        if (searchController.myActiveCars.isEmpty && !searchController.isLoading) {
+        if (searchController.myActiveCars.isEmpty &&
+            !searchController.isLoading) {
           return _buildEmptyState(tr('no cars found'));
         }
 
@@ -583,7 +695,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                 ),
               ),
             // No more data indicator
-            if (!searchController.hasMoreActiveCars && searchController.myActiveCars.isNotEmpty)
+            if (!searchController.hasMoreActiveCars &&
+                searchController.myActiveCars.isNotEmpty)
               Container(
                 padding: const EdgeInsets.all(16),
                 child: Center(
@@ -607,11 +720,13 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       () {
         if (!mounted) return const SizedBox();
 
-        if (searchController.isLoading && searchController.myInactiveCars.isEmpty) {
+        if (searchController.isLoading &&
+            searchController.myInactiveCars.isEmpty) {
           return const CarGridShimmer();
         }
 
-        if (searchController.myInactiveCars.isEmpty && !searchController.isLoading) {
+        if (searchController.myInactiveCars.isEmpty &&
+            !searchController.isLoading) {
           return _buildEmptyState(tr('no cars found'));
         }
 
@@ -630,7 +745,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                 ),
               ),
             // No more data indicator
-            if (!searchController.hasMoreInactiveCars && searchController.myInactiveCars.isNotEmpty)
+            if (!searchController.hasMoreInactiveCars &&
+                searchController.myInactiveCars.isNotEmpty)
               Container(
                 padding: const EdgeInsets.all(16),
                 child: Center(
@@ -654,25 +770,40 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
 
     // Check categories
     if (searchController.selectedCategories.isNotEmpty) {
-      final categoryNames = searchController.selectedCategories.map((cat) => cat.name ?? '').where((name) => name.isNotEmpty).take(2).join(', ');
+      final categoryNames = searchController.selectedCategories
+          .map((cat) => cat.name ?? '')
+          .where((name) => name.isNotEmpty)
+          .take(2)
+          .join(', ');
       if (categoryNames.isNotEmpty) {
-        activeFilters.add('📂 $categoryNames${searchController.selectedCategories.length > 2 ? ' +${searchController.selectedCategories.length - 2}' : ''}');
+        activeFilters.add(
+            '📂 $categoryNames${searchController.selectedCategories.length > 2 ? ' +${searchController.selectedCategories.length - 2}' : ''}');
       }
     }
 
     // Check brands
     if (searchController.selectedBrands.isNotEmpty) {
-      final brandNames = searchController.selectedBrands.map((brand) => brand.name ?? '').where((name) => name.isNotEmpty).take(2).join(', ');
+      final brandNames = searchController.selectedBrands
+          .map((brand) => brand.name ?? '')
+          .where((name) => name.isNotEmpty)
+          .take(2)
+          .join(', ');
       if (brandNames.isNotEmpty) {
-        activeFilters.add('🏷️ $brandNames${searchController.selectedBrands.length > 2 ? ' +${searchController.selectedBrands.length - 2}' : ''}');
+        activeFilters.add(
+            '🏷️ $brandNames${searchController.selectedBrands.length > 2 ? ' +${searchController.selectedBrands.length - 2}' : ''}');
       }
     }
 
     // Check brand models
     if (searchController.selectedBrandModels.isNotEmpty) {
-      final modelNames = searchController.selectedBrandModels.map((model) => model.name ?? '').where((name) => name.isNotEmpty).take(2).join(', ');
+      final modelNames = searchController.selectedBrandModels
+          .map((model) => model.name ?? '')
+          .where((name) => name.isNotEmpty)
+          .take(2)
+          .join(', ');
       if (modelNames.isNotEmpty) {
-        activeFilters.add('🚗 $modelNames${searchController.selectedBrandModels.length > 2 ? ' +${searchController.selectedBrandModels.length - 2}' : ''}');
+        activeFilters.add(
+            '🚗 $modelNames${searchController.selectedBrandModels.length > 2 ? ' +${searchController.selectedBrandModels.length - 2}' : ''}');
       }
     }
 
@@ -702,7 +833,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
 
     // Check sort order
     if (searchController.selectedSortAndOrderBy.value != null) {
-      final sortLabel = sortAndOrderBy[searchController.selectedSortAndOrderBy.value] ?? '';
+      final sortLabel =
+          sortAndOrderBy[searchController.selectedSortAndOrderBy.value] ?? '';
       if (sortLabel.isNotEmpty) {
         activeFilters.add('🔄 $sortLabel');
       }
@@ -713,19 +845,22 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       var advancedItems = <String>[];
 
       if (searchController.selectedBodyTypes.isNotEmpty) {
-        advancedItems.add('${searchController.selectedBodyTypes.length} body type(s)');
+        advancedItems
+            .add('${searchController.selectedBodyTypes.length} body type(s)');
       }
       if (searchController.condition.isNotEmpty) {
         advancedItems.add('${searchController.condition.length} condition(s)');
       }
       if (searchController.transmission.isNotEmpty) {
-        advancedItems.add('${searchController.transmission.length} transmission(s)');
+        advancedItems
+            .add('${searchController.transmission.length} transmission(s)');
       }
       if (searchController.fuelType.isNotEmpty) {
         advancedItems.add('${searchController.fuelType.length} fuel type(s)');
       }
       if (searchController.drivetrain.isNotEmpty) {
-        advancedItems.add('${searchController.drivetrain.length} drivetrain(s)');
+        advancedItems
+            .add('${searchController.drivetrain.length} drivetrain(s)');
       }
 
       // Check horsepower (only if different from defaults)
@@ -748,7 +883,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       }
 
       if (advancedItems.isNotEmpty) {
-        activeFilters.add('⚙️ ${advancedItems.take(2).join(', ')}${advancedItems.length > 2 ? ' +${advancedItems.length - 2}' : ''}');
+        activeFilters.add(
+            '⚙️ ${advancedItems.take(2).join(', ')}${advancedItems.length > 2 ? ' +${advancedItems.length - 2}' : ''}');
       }
     }
 
@@ -817,7 +953,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                   color: MyColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: MyColors.primary.withValues(alpha: 0.2)),
+                  border: Border.all(
+                      color: MyColors.primary.withValues(alpha: 0.2)),
                 ),
                 child: Text(
                   filter,
@@ -957,7 +1094,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       try {
         debugPrint('🚀 Trying direct WhatsApp launch...');
         final whatsappUri = Uri.parse('whatsapp://send?phone=$formattedNumber');
-        await url_launcher.launchUrl(whatsappUri, mode: url_launcher.LaunchMode.externalApplication);
+        await url_launcher.launchUrl(whatsappUri,
+            mode: url_launcher.LaunchMode.externalApplication);
         debugPrint('✅ WhatsApp launched directly!');
         return;
       } catch (e) {
@@ -966,8 +1104,10 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
 
       // Try different WhatsApp URL formats
       var whatsappUrls = <String>[
-        'whatsapp://send?phone=$formattedNumber', // WhatsApp URI with formatted number
-        'https://wa.me/$formattedNumber', // Web format with formatted number
+        'whatsapp://send?phone=$formattedNumber',
+        // WhatsApp URI with formatted number
+        'https://wa.me/$formattedNumber',
+        // Web format with formatted number
       ];
 
       for (var url in whatsappUrls) {
@@ -977,7 +1117,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
 
           // For Android, sometimes canLaunchUrl returns false even when the app can handle it
           // So we'll try to launch and catch any exceptions
-          await url_launcher.launchUrl(uri, mode: url_launcher.LaunchMode.externalApplication);
+          await url_launcher.launchUrl(uri,
+              mode: url_launcher.LaunchMode.externalApplication);
           debugPrint('🚀 WhatsApp launched with URL: $url');
           return;
         } catch (e) {
@@ -990,7 +1131,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       debugPrint('📱 Trying to open WhatsApp app directly...');
       try {
         final whatsappAppUri = Uri.parse('whatsapp://');
-        await url_launcher.launchUrl(whatsappAppUri, mode: url_launcher.LaunchMode.externalApplication);
+        await url_launcher.launchUrl(whatsappAppUri,
+            mode: url_launcher.LaunchMode.externalApplication);
         Toast.i('WhatsApp opened. Please search for the contact manually.');
         return;
       } catch (e) {
@@ -1001,7 +1143,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       debugPrint('📱 WhatsApp not found, trying to open Play Store...');
       try {
         final playStoreUri = Uri.parse('market://details?id=com.whatsapp');
-        await url_launcher.launchUrl(playStoreUri, mode: url_launcher.LaunchMode.externalApplication);
+        await url_launcher.launchUrl(playStoreUri,
+            mode: url_launcher.LaunchMode.externalApplication);
         Toast.i('Please install WhatsApp to chat with this number');
         return;
       } catch (e) {
@@ -1012,7 +1155,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       debugPrint('📞 Falling back to phone call...');
       try {
         final telUri = Uri.parse('tel:$phoneNumber');
-        await url_launcher.launchUrl(telUri, mode: url_launcher.LaunchMode.externalApplication);
+        await url_launcher.launchUrl(telUri,
+            mode: url_launcher.LaunchMode.externalApplication);
         Toast.i('WhatsApp not available, calling instead');
         return;
       } catch (e) {
@@ -1020,7 +1164,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       }
 
       // If everything fails
-      Toast.e('Could not open WhatsApp. Please make sure it\'s installed and try again.');
+      Toast.e(
+          'Could not open WhatsApp. Please make sure it\'s installed and try again.');
     } catch (e) {
       debugPrint('💥 Error launching WhatsApp: $e');
       Toast.e('Error opening WhatsApp');
@@ -1109,7 +1254,8 @@ class _MyCarsPageState extends State<MyCarsPage> with TickerProviderStateMixin {
       debugPrint('📱 Formatted number for call: $formattedNumber');
 
       final telUri = Uri.parse('tel:$formattedNumber');
-      await url_launcher.launchUrl(telUri, mode: url_launcher.LaunchMode.externalApplication);
+      await url_launcher.launchUrl(telUri,
+          mode: url_launcher.LaunchMode.externalApplication);
       debugPrint('✅ Phone call launched successfully!');
     } catch (e) {
       debugPrint('💥 Error launching phone call: $e');
